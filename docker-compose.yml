@@ -1,0 +1,22 @@
+version: "3"
+services: 
+  zeppelin:
+    image: unioah/zeppelin
+    environment:
+      MASTER: "spark://master:7077"
+      SPARK_PUBLIC_DNS: localhost
+      ZEPPELIN_PORT: 8090
+      ZEPPELIN_JAVA_OPTS: >-
+        -Dspark.driver.memory=1g
+        -Dspark.executor.memory=1g
+      ZEPPELIN_NOTEBOOK_DIR: "/zeppelin/notebook"
+    ports:
+      - 8090:8090
+    volumes:
+      - ./notebook:/zeppelin/notebook
+      - ./data:/tmp/data
+
+networks:
+  default:
+      external: 
+        name: spark-cluster
